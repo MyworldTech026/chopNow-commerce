@@ -1,6 +1,6 @@
-import menuItems from '../data.js'
+import menuItems from './data.js'
 import { getCartfromStorage } from './share-logic.js'
-import { savethemeToStorage } from '../toolbox/utils.js'
+import { savethemeToStorage } from './utils.js'
 import { saveFoodcartToStorage } from './share-logic.js'
 import { addToCart } from './share-logic.js'
 
