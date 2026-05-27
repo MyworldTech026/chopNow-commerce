@@ -128,7 +128,7 @@ placeOrderBtn.addEventListener('click', () => {
               }
               saveOrdertoStorage(emails);
                 sendMail(emails).then(()=>{
-                   window.location.href=`../pages/confirmation.html`
+                   window.location.href=`confirmation.html`
                 })
   }
 })
@@ -239,7 +239,7 @@ function payWithPaystack(name, email, total, phone) {
                 await sendMail(emails)
               }
               finally{
-                window.location.href=`../pages/confirmation.html`
+                window.location.href=`confirmation.html`
               }
             },
 
