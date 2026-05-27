@@ -309,7 +309,6 @@ async function sendMail(emails) {
   const templateId = `template_kgcbojk`
   try {
     await emailjs.send(serviceId, templateId, emails)
-    console.log(emails)
   }
   catch (error) {
   console.log(`failed to send email but order saved to database`)
