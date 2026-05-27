@@ -1,4 +1,4 @@
-import { savethemeToStorage } from "../toolbox/utils.js"
+import { savethemeToStorage } from "./utils.js"
 import { getfullProductDetails, subTotal, Total } from './order_summary.js'
 import { getCartfromStorage } from "./share-logic.js"
 import { saveDetailsToStorage, getUserDetails, saveOrdertoStorage } from "./order_summary.js"
