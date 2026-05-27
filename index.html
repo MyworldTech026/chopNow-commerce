@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChopNow — Nigerian Food Ordering</title>
+  <link rel="stylesheet" href="../styles/homepage.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Chop<span>Now</span></a>
+
+      <div class="nav-center">
+        <a href="#menu" class="nav-link">Menu</a>
+        <a href="#about" class="nav-link">About</a>
+      </div>
+
+      <div class="nav-right">
+        <button class="js-theme-toggle theme-toggle" aria-label="Toggle theme">
+          <span class="dark-icon">☀️</span>
+          <span class="light-icon">🌙</span>
+        </button>
+        <a href="cart.html" class="js-cart-btn cart-btn">
+          <span class="cart-icon">🛒</span>
+          <span class="js-cart-count cart-count hidden">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-tag">🇳🇬 Authentic Nigerian Cuisine</div>
+        <h1 class="hero-title">
+          Good Food,<br>
+          <em>Fast Delivery</em>
+        </h1>
+        <p class="hero-desc">
+          Order your favourite Nigerian meals — from Jollof Rice to Pepper Soup —
+          fresh and delivered hot to your door.
+        </p>
+        <a href="#menu" class="hero-btn">Order Now →</a>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80"
+            alt="Nigerian food"
+            class="hero-image"
+          />
+          <div class="hero-image-badge">
+            <span class="badge-number">50+</span>
+            <span class="badge-text">Dishes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section" id="menu">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Our Menu</h2>
+        <p class="section-sub">Fresh made daily with authentic Nigerian recipes</p>
+      </div>
+
+      <div class="js-category-tabs category-tabs">
+        <button class="js-category-btn category-btn active" data-category="all">All</button>
+        <button class="js-category-btn category-btn" data-category="soups">🍲 Soups</button>
+        <button class="js-category-btn category-btn" data-category="rice">🍚 Rice</button>
+        <button class="js-category-btn category-btn" data-category="proteins">🍗 Proteins</button>
+        <button class="js-category-btn category-btn" data-category="swallows">🥘 Swallows</button>
+        <button class="js-category-btn category-btn" data-category="drinks">🥤 Drinks</button>
+        <button class="js-category-btn category-btn" data-category="desserts">🍮 Desserts</button>
+      </div>
+
+      <!-- MENU GRID -->
+      <div class="js-menu-grid menu-grid">
+        <div>uiledsj</div>
+        <div>wois</div>
+        <div>w;nlskms;p</div>
+        <div>jwdskm</div>
+        <div>uds;oi</div>
+        <div>hwbd;uikm</div>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div class="js-menu-empty menu-empty hidden">
+        <div class="empty-icon">🍽️</div>
+        <div class="empty-text">No items in this category</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="section-tag">About Us</div>
+          <h2 class="about-title">Real Nigerian Food, <em>Real Fast</em></h2>
+          <p class="about-desc">
+            ChopNow brings you the most authentic Nigerian dishes made fresh daily.
+            From the smoky flavour of Suya to the rich taste of Egusi Soup —
+            we deliver the true taste of Nigeria straight to your door.
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <div class="js-menu-stat stat-number">50+</div>
+              <div class="stat-label">Menu Items</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">40min</div>
+              <div class="stat-label">Avg Delivery</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">4.8★</div>
+              <div class="stat-label">Rating</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-image-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80"
+            alt="Nigerian kitchen"
+            class="about-image"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">Chop<span>Now</span></div>
+      <div class="footer-text">© 2026 ChopNow. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="https://github.com/MyworldTech026" target="_blank" class="footer-link">Built By mzd_dev</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="js-toast toast hidden"></div>
+
+  <script type="module" src="../script/homepage.js"></script>
+  <!-- <script type="module" src="js/menu.js"></script> -->
+</body>
+</html>
+

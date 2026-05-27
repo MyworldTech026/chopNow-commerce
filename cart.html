@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChopNow — Your Cart</title>
+  <link rel="stylesheet" href="../styles/cart.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<!-- <a href="index.html" class="back-btn">← Back to Menu</a> -->
+ 
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Chop<span>Now</span></a>
+      <div class="nav-right">
+        <button class="js-theme-togglebtn theme-toggle" aria-label="Toggle theme">
+          <span class="dark-icon">☀️</span>
+          <span class="light-icon">🌙</span>
+        </button>
+        <a href="cart.html" class="js-cart-btn cart-btn">
+          <span class="cart-icon">🛒</span>
+          <span class="js-cart-counts cart-count hidden">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <a href="index.html#menu" class="back-btn">← Back to Menu</a>
+      <h1 class="page-title">Your Cart</h1>
+      <span class="js-cart-items-count cart-items-count">0 items</span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="main-inner">
+
+      <!-- LEFT — CART ITEMS -->
+      <section class="cart-section">
+
+        <!-- CART ITEMS LIST -->
+        <div class="js-cart-list cart-list"></div>
+
+        <!-- EMPTY STATE -->
+        <div class="js-cart-empty cart-empty hidden">
+          <div class="empty-icon">🛒</div>
+          <div class="empty-title">Your cart is empty</div>
+          <div class="empty-desc">Add some delicious Nigerian food to get started!</div>
+          <a href="index.html#menu" class="empty-btn">Browse Menu →</a>
+        </div>
+
+        <!-- CLEAR CART -->
+        <div class="js-cart-actions cart-actions hidden">
+          <button class="js-clear-cart clear-cart-btn">🗑 Clear Cart</button>
+        </div>
+
+      </section>
+
+      <!-- RIGHT — ORDER SUMMARY -->
+      <aside class="summary-section">
+        <div class="summary-card">
+          <h2 class="summary-title">Order Summary</h2>
+
+          <div class="summary-rows">
+            <div class="summary-row">
+              <span class="summary-label">Subtotal</span>
+              <span class="js-subtotal summary-value">₦0.00</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Delivery Fee</span>
+              <span class="js-delivery summary-value">₦1000.00</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Service Fee</span>
+              <span class="js-service summary-value">₦100.00</span>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row total-row">
+            <span class="total-label">Total</span>
+            <span class="js-total total-value">₦0.00</span>
+          </div>
+
+          <!-- PROMO CODE -->
+          <div class="promo-wrap">
+            <input
+              type="text"
+              class="js-promo-input promo-input"
+              placeholder="Enter promo code"
+            />
+            <button class="js-promo-btn promo-btn">Apply</button>
+          </div>
+
+          <div class="js-promo-msg promo-msg hidden"></div>
+
+          <a href="checkout.html" class="js-checkout-btn checkout-btn">
+            Proceed to Checkout →
+          </a>
+
+          <div class="summary-note">
+            🔒 Secure checkout powered by Paystack
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- TOAST -->
+  <div class="js-toast toast hidden"></div>
+
+  <script type="module" src="../script/cart.js"></script>
+ 
+</body>
+</html>
+
