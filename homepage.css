@@ -635,7 +635,7 @@ a { text-decoration: none; color: inherit; }
 
 .footer-link {
   font-size: 0.8rem;
-  color:black;
+  color:grey;
   transition: color 0.2s;
 }
 
