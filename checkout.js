@@ -92,6 +92,10 @@ placeOrderBtn.addEventListener('click', () => {
   const email = info.email
   const name = `${info.Fname} ${info.Lname}`
   const phone = info.phone
+  const homeAddress=info.homeAddress
+  const city=info.city
+  const state=info.state
+  const deliveryNote=info.deliveryNote
   const total = Total()
   if (paymentMethod === 'paystack') {
     if (cart.length === 0) {
@@ -102,7 +106,7 @@ placeOrderBtn.addEventListener('click', () => {
       }, 3000)
       return
     }
-    payWithPaystack(name, email, total, phone)
+    payWithPaystack(name, email, total, phone,{ homeAddress, city, state, deliveryNote })
   } 
   
   else if (paymentMethod === 'cash') {
@@ -120,11 +124,13 @@ placeOrderBtn.addEventListener('click', () => {
                 date: new Date().toLocaleDateString(),
                 time: new Date().toLocaleTimeString()
               }))
+
+const address=buildAddress({ homeAddress, city, state, deliveryNote })
                 const emails = {
                 name: name,
                 email: email,
                 subject: `${name.toUpperCase()} PLACE AN ORDER`,
-                message: `<h2>${phone}</h2>${prepareEmailMessage()}`
+                message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
               }
               saveOrdertoStorage(emails);
                 sendMail(emails).then(()=>{
@@ -132,6 +138,18 @@ placeOrderBtn.addEventListener('click', () => {
                 })
   }
 })
+
+
+function buildAddress({ homeAddress, city, state, deliveryNote }) {
+  const parts = [
+    homeAddress && `<h2>${homeAddress}</h2>`,
+    city && `<div>${city}</div>`,
+    state && `<div>${state}</div>`,
+    deliveryNote && `<div>${deliveryNote}</div>`
+  ].filter(Boolean);
+
+  return parts.join('\n');
+}
 
 
 // prepares emails body
@@ -164,7 +182,7 @@ function prepareEmailMessage() {
 
 
 //payment with paystack
-// function payWithPaystack(name, email, total, phone) {
+// function payWithPaystack(name, email, total, phone,homeAddress, city, state, deliveryNote ) {
 //   const handler = PaystackPop.setup({
 //     key: `pk_test_bcfffaed2cef31a8becd4700c16c89fd54bbb92e`,
 //     email: email,
@@ -177,13 +195,13 @@ function prepareEmailMessage() {
 //         paymentMethod: paymentMethod,
 //         date: new Date().toLocaleDateString()
 //       }))
-
+       const address=buildAddress({ homeAddress, city, state, deliveryNote })
 //       // prepare the email info into an object
 //       const emails = {
 //         name: name,
 //         email: email,
 //         subject: `${name.toUpperCase()} PLACE AN ORDER`,
-//         message: `<h2>${phone}</h2>${prepareEmailMessage()}`
+//         message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
 //       }
 //       saveOrdertoStorage(emails);
 //       sendMail(emails).then(() => {
