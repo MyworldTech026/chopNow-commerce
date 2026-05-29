@@ -230,7 +230,7 @@ function prepareEmailMessage() {
 // }
 
 
-function payWithPaystack(name, email, total, phone) {
+function payWithPaystack(name, email, total, phone,homeAddress, city, state, deliveryNote ) {
   const paystack = new PaystackPop()
   paystack.newTransaction({
     key: `pk_test_bcfffaed2cef31a8becd4700c16c89fd54bbb92e`,
@@ -244,13 +244,13 @@ function payWithPaystack(name, email, total, phone) {
                 date: new Date().toLocaleDateString(),
                 time: new Date().toLocaleTimeString()
               }))
-
+const address=buildAddress({ homeAddress, city, state, deliveryNote })
               // prepare the email info into an object
               const emails = {
                 name: name,
                 email: email,
                 subject: `${name.toUpperCase()} PLACE AN ORDER`,
-                message: `<h2>${phone}</h2>${prepareEmailMessage()}`
+                message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
               }
               saveOrdertoStorage(emails);
               try{
