@@ -195,7 +195,7 @@ function prepareEmailMessage() {
 //         paymentMethod: paymentMethod,
 //         date: new Date().toLocaleDateString()
 //       }))
-       const address=buildAddress({ homeAddress, city, state, deliveryNote })
+     
 //       // prepare the email info into an object
 //       const emails = {
 //         name: name,
