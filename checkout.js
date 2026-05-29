@@ -106,7 +106,7 @@ placeOrderBtn.addEventListener('click', () => {
       }, 3000)
       return
     }
-    payWithPaystack(name, email, total, phone,{ homeAddress, city, state, deliveryNote })
+    payWithPaystack(name, email, total, phone,homeAddress, city, state, deliveryNote )
   } 
   
   else if (paymentMethod === 'cash') {
