@@ -52,9 +52,6 @@ let cart=getCartfromStorage()
 }
 
 
-
-
-
 export function saveFoodcartToStorage(cart) {
   localStorage.setItem('foodCart', JSON.stringify(cart))
 }
