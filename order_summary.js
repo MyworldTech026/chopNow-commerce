@@ -67,7 +67,6 @@ export function estimatedDeliveryTime(){
   let hour=Math.floor(time/60)
   let min=time%60.
   const readableTimeFormats=`${hour===0?'':`${hour} hr`} ${min===0?'':`${min} mins`}`
-  console.log(readableTimeFormats)
  return readableTimeFormats
 }
 
