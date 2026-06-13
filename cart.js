@@ -3,12 +3,8 @@ import {addToCart, saveFoodcartToStorage , inc_dec,getCartfromStorage} from './s
 import { savethemeToStorage } from '../utils.js'
 import {getfullProductDetails,subTotal,Total} from './order_summary.js'
 
+let menuItems=JSON.parse(localStorage.getItem('chopnowfullproductdata'))||[]
 const cart=getCartfromStorage()
-let menuItems=[]
-getproduct((data)=>{
-menuItems=data
-displayCartItem(cart)
-})
 
 
 const cartQuantity = document.querySelector('.js-cart-counts')
@@ -59,7 +55,7 @@ if(cart.length===0){
 document.querySelector('.js-cart-actions').classList.remove('hidden')
 }
 }
-// displayCartItem(cart)
+displayCartItem(cart)
 
 let filteredCart;
 cartGrid.addEventListener('click', (e) => {
