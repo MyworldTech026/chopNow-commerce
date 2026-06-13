@@ -1,8 +1,33 @@
-import menuItems from './data.js'
+// import { db } from "./config.js"
+// import { addDoc, collection, getDocs, doc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js';
+
+import {getproduct} from '../data.js'
 import { getCartfromStorage } from './share-logic.js'
-import { savethemeToStorage } from './utils.js'
+import { savethemeToStorage } from '../toolbox/utils.js'
 import { saveFoodcartToStorage } from './share-logic.js'
 import { addToCart } from './share-logic.js'
+
+// const menuItem=snapShot.docs.map(doc=>({
+//   id:doc.id,
+//   ...doc.data()
+// }))
+// let menuitems=[]
+// onSnapshot(collection(db, 'projectDetails'), (snapshot) =>{
+// let snaps=snapshot.docs.map(doc=>({
+//   ...doc.data()
+// }))
+// menuitems=snaps
+// })
+
+//console.log(getproduct())
+
+//let menuItems;
+let menuItems=[]
+getproduct((data)=>{
+menuItems=data
+localStorage.setItem('chopnowfullproductdata',JSON.stringify(menuItems))
+renderMenuItems(menuItems)
+})
 
 
 
@@ -46,8 +71,7 @@ function renderMenuItems(menuItems) {
   })
   menuGrid.innerHTML = productCard
 }
-
-renderMenuItems(menuItems)
+//renderMenuItems(menuItems)
 
 //filter menuitems
 categoryDiv.addEventListener('click', (e) => {
