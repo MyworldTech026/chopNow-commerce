@@ -44,7 +44,6 @@ let cart=getCartfromStorage()
     })
     if (existing) {
      if(existing.quantity===1)return cart
-     console.log(`penetrate`)
       existing.quantity--
     }
   }
