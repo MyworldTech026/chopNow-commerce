@@ -1,10 +1,15 @@
-import { menuItems } from './data.js'
+import { getproduct } from '../data.js'
 import {addToCart, saveFoodcartToStorage , inc_dec,getCartfromStorage} from './share-logic.js'
-import { savethemeToStorage } from './utils.js'
+import { savethemeToStorage } from '../toolbox/utils.js'
 import {getfullProductDetails,subTotal,Total} from './order_summary.js'
 
-
 const cart=getCartfromStorage()
+let menuItems=[]
+getproduct((data)=>{
+menuItems=data
+displayCartItem(cart)
+})
+
 
 const cartQuantity = document.querySelector('.js-cart-counts')
 const cartGrid = document.querySelector('.js-cart-list')
@@ -54,7 +59,7 @@ if(cart.length===0){
 document.querySelector('.js-cart-actions').classList.remove('hidden')
 }
 }
-displayCartItem(cart)
+// displayCartItem(cart)
 
 let filteredCart;
 cartGrid.addEventListener('click', (e) => {
@@ -74,7 +79,7 @@ cartGrid.addEventListener('click', (e) => {
   if (decrease) {
    const id = Number(decrease.dataset.id)
   const cart= inc_dec('js-decrease',id)
-  console.log(cart)
+  //console.log(cart)
   //if(cart.quantity===1)return
   saveFoodcartToStorage(cart)
    displayCartItem(cart)
@@ -158,28 +163,6 @@ function orderSummary(){
 }
 
 orderSummary()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const html = document.documentElement
