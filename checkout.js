@@ -1,4 +1,9 @@
-import { savethemeToStorage } from "./utils.js"
+import { db } from "../config.js"
+import { addDoc, collection, getDocs, doc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js';
+
+
+
+import { savethemeToStorage } from "../toolbox/utils.js"
 import { getfullProductDetails, subTotal, Total } from './order_summary.js'
 import { getCartfromStorage } from "./share-logic.js"
 import { saveDetailsToStorage, getUserDetails, saveOrdertoStorage } from "./order_summary.js"
@@ -80,6 +85,7 @@ paymentOptions.forEach((option) => {
     option.classList.add('active')
     const radio = option.querySelector('.payment-radio')
     paymentMethod = radio.value
+    console.log(paymentMethod)
   })
 })
 
@@ -92,10 +98,10 @@ placeOrderBtn.addEventListener('click', () => {
   const email = info.email
   const name = `${info.Fname} ${info.Lname}`
   const phone = info.phone
-  const homeAddress=info.homeAdress
-  const city=info.city
-  const state=info.state
-  const deliveryNote=info.deliveryNote
+  const homeAdress = info.homeAdress
+  const city = info.city
+  const state = info.state
+  const deliveryNote = info.deliveryNote
   const total = Total()
   if (paymentMethod === 'paystack') {
     if (cart.length === 0) {
@@ -106,49 +112,78 @@ placeOrderBtn.addEventListener('click', () => {
       }, 3000)
       return
     }
-    payWithPaystack(name, email, total, phone,homeAddress, city, state, deliveryNote )
-  } 
-  
+    payWithPaystack(name, email, total, phone, homeAdress, city, state, deliveryNote)
+  }
+
   else if (paymentMethod === 'cash') {
-      if(cart.length===0){
-         cancelpayAlert.classList.remove('hidden')
+    if (cart.length === 0) {
+      cancelpayAlert.classList.remove('hidden')
       cancelpayAlert.textContent = `cart is empty,go back and add to your cart`
       setTimeout(() => {
         cancelpayAlert.classList.add('hidden')
       }, 3000)
       return
-      }
-      localStorage.setItem('chopnow-refId', JSON.stringify({
-                reference: '#00000000',
-                paymentMethod: paymentMethod,
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString()
-              }))
+    }
+    localStorage.setItem('chopnow-refId', JSON.stringify({
+      reference: '#00000000',
+      paymentMethod: paymentMethod,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString()
+    }))
 
-const address=buildAddress({ homeAddress, city, state, deliveryNote })
-                const emails = {
-                name: name,
-                email: email,
-                subject: `${name.toUpperCase()} PLACE AN ORDER`,
-                message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
-              }
-              saveOrdertoStorage(emails);
-                sendMail(emails).then(()=>{
-                   window.location.href=`confirmation.html`
-                })
+    let order = {
+        reference:'#00000000',
+        paymentMethod: paymentMethod,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        status:'pending',
+        name: name,
+        email: email,
+        items:getfullProductDetails().productDetails,
+        total:total,
+        phone:phone,
+        action:ifCashOnDelivery(),
+        city:city,
+        state:state,
+        address:homeAdress,
+        deliveryNote:deliveryNote
+      }
+      addOrderToDb(order)
+
+    const address = buildAdress(homeAdress, city, state, deliveryNote).join('\n')
+    const emails = {
+      name: name,
+      email: email,
+      subject: `${name.toUpperCase()} PLACE AN ORDER`,
+      message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
+    }
+    console.log(emails)
+    saveOrdertoStorage(emails);
+    sendMail(emails).then(() => {
+      window.location.href = `../pages/confirmation.html`
+    })
   }
 })
 
+function ifCashOnDelivery(){
+   const refId=JSON.parse(localStorage.getItem('chopnow-refId'))||''
+   if(refId.paymentMethod==='cash'){
+   return `pay on delivery`
+   }else{
+     return `Paid`
+   }
+}
 
-function buildAddress({ homeAddress, city, state, deliveryNote }) {
-  const parts = [
-    homeAddress && `<h2>${homeAddress}</h2>`,
+function buildAdress(homeAdress, city, state, deliveryNote) {
+
+  let parts = [
+
+    homeAdress && `<h2>${homeAdress}</h2>`,
     city && `<div>${city}</div>`,
     state && `<div>${state}</div>`,
     deliveryNote && `<div>${deliveryNote}</div>`
-  ].filter(Boolean);
-
-  return parts.join('\n');
+  ].filter(Boolean)
+  return parts
 }
 
 
@@ -176,13 +211,13 @@ function prepareEmailMessage() {
   </div>
  `
   })
-  return `${body}<h2 style="color:gold;">Total=${total}<h2> <h1>payment method: ${paymentMethod==='paystack'?`${paymentMethod}`:'pay on delivery'}</h1>`
+  return `${body}<h2 style="color:gold;">Total=${total}<h2> <h1>payment method: ${paymentMethod === 'paystack' ? `${paymentMethod}` : 'pay on delivery'}</h1>`
 }
 
 
 
 //payment with paystack
-// function payWithPaystack(name, email, total, phone,homeAddress, city, state, deliveryNote ) {
+// function payWithPaystack(name, email, total, phone) {
 //   const handler = PaystackPop.setup({
 //     key: `pk_test_bcfffaed2cef31a8becd4700c16c89fd54bbb92e`,
 //     email: email,
@@ -195,13 +230,13 @@ function prepareEmailMessage() {
 //         paymentMethod: paymentMethod,
 //         date: new Date().toLocaleDateString()
 //       }))
-     
+
 //       // prepare the email info into an object
 //       const emails = {
 //         name: name,
 //         email: email,
 //         subject: `${name.toUpperCase()} PLACE AN ORDER`,
-//         message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
+//         message: `<h2>${phone}</h2>${prepareEmailMessage()}`
 //       }
 //       saveOrdertoStorage(emails);
 //       sendMail(emails).then(() => {
@@ -230,38 +265,57 @@ function prepareEmailMessage() {
 // }
 
 
-function payWithPaystack(name, email, total, phone,homeAddress, city, state, deliveryNote ) {
+function payWithPaystack(name, email, total, phone, homeAdress, city, state, deliveryNote) {
   const paystack = new PaystackPop()
   paystack.newTransaction({
     key: `pk_test_bcfffaed2cef31a8becd4700c16c89fd54bbb92e`,
-      email: email,
-        amount: total * 100,
-          currency: 'NGN',
-           onSuccess: async (response)=> {
-              localStorage.setItem('chopnow-refId', JSON.stringify({
-                reference: response.reference,
-                paymentMethod: paymentMethod,
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString()
-              }))
-const address=buildAddress({ homeAddress, city, state, deliveryNote })
-              // prepare the email info into an object
-              const emails = {
-                name: name,
-                email: email,
-                subject: `${name.toUpperCase()} PLACE AN ORDER`,
-                message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
-              }
-              saveOrdertoStorage(emails);
-              try{
-                await sendMail(emails)
-              }
-              finally{
-                window.location.href=`confirmation.html`
-              }
-            },
+    email: email,
+    amount: total * 100,
+    currency: 'NGN',
+    onSuccess: async (response) => {
+      localStorage.setItem('chopnow-refId', JSON.stringify({
+        reference: response.reference,
+        paymentMethod: paymentMethod,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString()
+      }))
+      let order = {
+        reference: response.reference,
+        paymentMethod: paymentMethod,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        status:'pending',
+        name: name,
+        email: email,
+        items:getfullProductDetails().productDetails,
+        total:total,
+        phone:phone,
+        action:ifCashOnDelivery(),
+        city:city,
+        state:state,
+        address:homeAdress,
+        deliveryNote:deliveryNote
+      }
+      addOrderToDb(order)
 
-    onCancel: ()=> {
+      const address = buildAdress(homeAdress, city, state, deliveryNote)
+      // prepare the email info into an object
+      const emails = {
+        name: name,
+        email: email,
+        subject: `${name.toUpperCase()} PLACE AN ORDER`,
+        message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
+      }
+      saveOrdertoStorage(emails);
+      try {
+        await sendMail(emails)
+      }
+      finally {
+        window.location.href = `../pages/confirmation.html`
+      }
+    },
+
+    onCancel: () => {
       cancelpayAlert.classList.remove('hidden')
       cancelpayAlert.textContent = `payment cancelled`
       setTimeout(() => {
@@ -271,7 +325,20 @@ const address=buildAddress({ homeAddress, city, state, deliveryNote })
   })
 }
 
+async function addOrderToDb(order) {
+  await addDoc(collection(db, 'Order'), order)
+}
 
+// function buildItem(){
+//   let cart=getCartfromStorage()
+//   let fullproduct=getfullProductDetails()
+//   console.log(fullproduct)
+//   cart.forEach((item)=>{
+//      console.log(item.id)
+//   console.log(fullproduct[0])
+//   })
+// }
+// buildItem()
 
 // update cart quantity
 function updateCartQuantity() {
@@ -327,9 +394,10 @@ async function sendMail(emails) {
   const templateId = `template_kgcbojk`
   try {
     await emailjs.send(serviceId, templateId, emails)
+    console.log(emails)
   }
   catch (error) {
-  console.log(`failed to send email but order saved to database`)
+    console.log(`failed to send email but order saved to database`)
   }
 }
 
