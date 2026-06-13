@@ -85,7 +85,6 @@ paymentOptions.forEach((option) => {
     option.classList.add('active')
     const radio = option.querySelector('.payment-radio')
     paymentMethod = radio.value
-    console.log(paymentMethod)
   })
 })
 
@@ -157,10 +156,9 @@ placeOrderBtn.addEventListener('click', () => {
       subject: `${name.toUpperCase()} PLACE AN ORDER`,
       message: `${address} <h2>${phone}</h2>${prepareEmailMessage()}`
     }
-    console.log(emails)
     saveOrdertoStorage(emails);
     sendMail(emails).then(() => {
-      window.location.href = `../pages/confirmation.html`
+      window.location.href = `confirmation.html`
     })
   }
 })
@@ -311,7 +309,7 @@ function payWithPaystack(name, email, total, phone, homeAdress, city, state, del
         await sendMail(emails)
       }
       finally {
-        window.location.href = `../pages/confirmation.html`
+        window.location.href = `confirmation.html`
       }
     },
 
