@@ -374,6 +374,7 @@ orderSummary()
 //auto fill user details
 function autoUserInfo() {
   const userInfo = getUserDetails()
+console.log(userInfo)
   f_name.value = userInfo.Fname
   L_name.value = userInfo.Lname
   E_mail.value = userInfo.email
