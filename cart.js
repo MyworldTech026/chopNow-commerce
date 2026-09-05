@@ -19,12 +19,12 @@ function displayCartItem(cart){
 let cartdisplay = ''
 cart.forEach((foodItem) => {
   const id = foodItem.id
-  let item;
-  menuItems.forEach((menu) => {
+  let item = menuItems.find((menu) => {
     if (id === menu.id) {
-      item = menu
+      return menu
     }
   })
+  
   cartdisplay +=
     ` 
   <div class="cart-item" data-id="${item.id}">
