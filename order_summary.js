@@ -1,7 +1,7 @@
 import { getCartfromStorage } from "./share-logic.js";
 //import { menuItems } from '../data.js'
 
-let menuItems=JSON.parse(localStorage.getItem('chopnowfullproductdata'))
+let menuItems=JSON.parse(sessionStorage.getItem('chopnowfullproductdata'))
 //let cart=getCartfromStorage()
 
 
