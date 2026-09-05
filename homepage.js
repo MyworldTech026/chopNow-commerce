@@ -25,7 +25,7 @@ import { addToCart } from './share-logic.js'
 let menuItems=[]
 getproduct((data)=>{
 menuItems=data
-localStorage.setItem('chopnowfullproductdata',JSON.stringify(menuItems))
+sessionStorage.setItem('chopnowfullproductdata',JSON.stringify(menuItems))
 renderMenuItems(menuItems)
 })
 
