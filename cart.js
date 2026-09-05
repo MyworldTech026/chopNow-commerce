@@ -3,7 +3,7 @@ import {addToCart, saveFoodcartToStorage , inc_dec,getCartfromStorage} from './s
 import { savethemeToStorage } from '../utils.js'
 import {getfullProductDetails,subTotal,Total} from './order_summary.js'
 
-let menuItems=JSON.parse(localStorage.getItem('chopnowfullproductdata'))||[]
+let menuItems=JSON.parse(sessionStorage.getItem('chopnowfullproductdata'))||[]
 const cart=getCartfromStorage()
 
 
